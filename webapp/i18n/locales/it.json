@@ -1,0 +1,186 @@
+{
+    "app": {
+        "loadError": "Si è verificato un errore durante il caricamento dei dati"
+    },
+    "common": {
+        "close": "Chiudi",
+        "cancel": "Annulla",
+        "keepEditing": "Continua a modificare",
+        "redirectingVisits": "Apertura delle visite...",
+        "syncingDevice": "Sincronizzazione del dispositivo..."
+    },
+    "dialogs": {
+        "successTitle": "Fatto"
+    },
+    "nav": {
+        "visits": {
+            "label": "Visite",
+            "description": "Gli uccellini passati, con le loro foto"
+        },
+        "camera": {
+            "label": "Fotocamera",
+            "description": "Guarda dentro la casetta e imposta le foto delle visite"
+        },
+        "device": {
+            "label": "Dispositivo",
+            "description": "Info del dispositivo, rete e riavvio"
+        }
+    },
+    "api": {
+        "backendErrors": {
+            "invalid_resolution": "Il dispositivo non conosce questa risoluzione.",
+            "resolution_not_supported": "Il sensore non può scattare foto a questa risoluzione. Scegline una più piccola.",
+            "invalid_quality": "La qualità deve essere un numero intero da 4 a 63.",
+            "invalid_flash": "L'impostazione del flash non è valida.",
+            "camera_busy": "La fotocamera sta scattando un'altra foto (la tua o una visita). Riprova tra un momento.",
+            "camera_unavailable": "Il sensore della fotocamera non si è avviato. Controlla il cavo flat, poi riavvia il dispositivo.",
+            "capture_failed": "La fotocamera non è riuscita a scattare la foto. Riprova.",
+            "invalid_page": "Il dispositivo non ha capito quali visite mostrare.",
+            "invalid_visit_id": "Il dispositivo non conosce questa visita.",
+            "visit_not_found": "Questa visita non è più sulla scheda.",
+            "storage_unavailable": "Nella casetta non c'è una scheda microSD. Inseriscine una, poi riavvia il dispositivo.",
+            "visits_busy": "Le visite eliminate poco fa sono ancora in rimozione. Riprova tra un minuto.",
+            "visit_delete_failed": "La scheda non è riuscita a eliminare la visita. Riprova.",
+            "invalid_settings_field": "Una delle impostazioni non è valida.",
+            "settings_save_failed": "Il dispositivo non è riuscito a salvare le impostazioni. Riprova.",
+            "clear_settings_failed": "Il dispositivo non è riuscito a cancellare le impostazioni. Riprova."
+        }
+    },
+    "pages": {
+        "visits": {
+            "title": "Visite",
+            "statusTitle": "Casetta",
+            "count": "Ancora nessuna visita. | 1 visita sulla scheda. | {count} visite sulla scheda.",
+            "clockNotSet": "La casetta non ha raggiunto internet dall'avvio, quindi le nuove visite non hanno una data.",
+            "detection": {
+                "label": "Rilevamento",
+                "watching": "Attivo",
+                "off": "Spento",
+                "paused": "In pausa",
+                "noCard": "Senza scheda"
+            },
+            "lastVisit": {
+                "label": "Ultima visita",
+                "none": "Ancora nessuna"
+            },
+            "storage": {
+                "label": "Scheda microSD",
+                "missing": "Non trovata",
+                "used": "{used} usati su {total}"
+            },
+            "unknownTime": "Visita {id}, ora sconosciuta",
+            "noCardTitle": "Nessuna scheda microSD",
+            "noCardDescription": "La casetta salva la foto di ogni visita su una scheda microSD. Inseriscine una nello slot dell'ESP32-CAM, poi riavvia il dispositivo.",
+            "emptyTitle": "Ancora nessuna visita",
+            "emptyDescription": "Quando entra un uccellino, la casetta gli scatta una foto e la trovi qui.",
+            "listLabel": "Visite, dalla più recente",
+            "thumbnailAlt": "Visita del {time}",
+            "photoAlt": "Foto della visita del {time}",
+            "photoTitle": "Visita {id}",
+            "photoDetails": "{time} · {size}",
+            "loadMore": "Mostra visite precedenti",
+            "saveAction": "Salva foto",
+            "deleteAction": "Elimina visita",
+            "deleteConfirmTitle": "Eliminare questa visita?",
+            "deleteConfirmMessage": "La sua foto viene rimossa dalla scheda.",
+            "deleteAllAction": "Elimina tutte le visite",
+            "deleteAllConfirmTitle": "Eliminare tutte le visite?",
+            "deleteAllConfirmMessage": "Nessuna visita da eliminare. | La foto dell'unica visita viene rimossa dalla scheda. | Le foto di tutte le {count} visite vengono rimosse dalla scheda.",
+            "deleteError": "Si è verificato un errore durante l'eliminazione",
+            "loadErrorTitle": "Impossibile leggere le visite",
+            "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova.",
+            "loadRetryAction": "Riprova"
+        },
+        "camera": {
+            "title": "Fotocamera",
+            "unavailableTitle": "Fotocamera non trovata",
+            "unavailableDescription": "Il sensore della fotocamera non si è avviato. Controlla che il cavo flat sia inserito fino in fondo e bloccato, poi riavvia il dispositivo.",
+            "loadErrorTitle": "Impossibile leggere la fotocamera",
+            "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova.",
+            "loadRetryAction": "Riprova",
+            "live": {
+                "emptyTitle": "Ancora nessuna foto",
+                "emptyDescription": "Scatta una foto per guardare subito dentro la casetta.",
+                "snapshotAlt": "Foto dal vivo della casetta",
+                "snapshotDetails": "{resolution} · {size} · scattata in {time} ms",
+                "snapshotAction": "Scatta foto",
+                "downloadAction": "Salva foto",
+                "takingSnapshot": "Scatto in corso...",
+                "snapshotError": "Si è verificato un errore durante lo scatto",
+                "optionsTitle": "Scatto",
+                "optionsHint": "Sensore {sensor}. Le foto più grandi e nitide impiegano di più ad arrivare.",
+                "resolution": {
+                    "label": "Risoluzione",
+                    "note": "La dimensione della foto in pixel."
+                },
+                "quality": {
+                    "label": "Qualità",
+                    "note": "Le foto più nitide sono file più grandi.",
+                    "best": "Massima",
+                    "bestMeta": "La più nitida, file più grandi",
+                    "high": "Alta",
+                    "highMeta": "Nitida, quella predefinita",
+                    "medium": "Media",
+                    "mediumMeta": "File più piccoli, un po' meno nitida",
+                    "low": "Bassa",
+                    "lowMeta": "File più piccoli, visibilmente meno nitida"
+                },
+                "flash": {
+                    "label": "Flash",
+                    "description": "Luce bianca forte: può far scappare un uccellino dal nido"
+                }
+            },
+            "detection": {
+                "watchTitle": "Rilevamento delle visite",
+                "watchHint": "La fotocamera osserva l'interno della casetta e scatta una foto quando l'immagine cambia, come quando entra un uccellino.",
+                "enabled": {
+                    "label": "Fotografa le visite",
+                    "description": "Serve una scheda microSD"
+                },
+                "sensitivity": {
+                    "label": "Sensibilità",
+                    "note": "Quanto deve cambiare l'immagine per contare come visita.",
+                    "low": "Bassa",
+                    "lowMeta": "Solo grandi cambiamenti, vicino alla fotocamera",
+                    "medium": "Media",
+                    "mediumMeta": "Un uccellino che entra, quella predefinita",
+                    "high": "Alta",
+                    "highMeta": "Anche gli uccellini piccoli, e più visite false"
+                },
+                "cooldown": {
+                    "label": "Attesa tra le foto",
+                    "note": "Un uccellino che resta dentro, come uno che cova, riceve una foto in questo tempo.",
+                    "seconds": "{count} s",
+                    "minutes": "{count} min",
+                    "hours": "{count} h"
+                },
+                "photoTitle": "Foto delle visite",
+                "photoHint": "Le foto più grandi sono più nitide e riempiono prima la scheda: le visite più vecchie fanno spazio alle nuove.",
+                "resolution": {
+                    "label": "Risoluzione",
+                    "note": "La dimensione in pixel delle foto delle visite."
+                },
+                "flash": {
+                    "label": "Flash",
+                    "description": "Illumina la casetta buia, ma la luce bianca forte può far scappare un uccellino dal nido"
+                },
+                "saveAction": "Salva impostazioni",
+                "saveConfirmTitle": "Salva impostazioni",
+                "saveConfirmMessage": "Salvare queste impostazioni sulla casetta?",
+                "saveSuccess": "Impostazioni salvate. La casetta le usa subito.",
+                "saveError": "Si è verificato un errore durante il salvataggio delle impostazioni",
+                "loadErrorTitle": "Impossibile leggere le impostazioni",
+                "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova."
+            }
+        },
+        "device": {
+            "title": "Dispositivo",
+            "resetAction": "Ripristina le impostazioni",
+            "resetInfoTitle": "Riavvio del dispositivo",
+            "resetInfoMessage": "Le impostazioni e il Wi-Fi sono stati cancellati e la casetta si sta riavviando. Collegati alla rete Gizmo-Birdhouse per configurarla di nuovo. Le visite restano sulla scheda.",
+            "resetError": "Si è verificato un errore durante il ripristino delle impostazioni",
+            "resetConfirmTitle": "Ripristina le impostazioni",
+            "resetConfirmMessage": "Cancellare le impostazioni e il Wi-Fi e riavviare la casetta nel suo hotspot di configurazione? Le visite restano sulla scheda."
+        }
+    }
+}
