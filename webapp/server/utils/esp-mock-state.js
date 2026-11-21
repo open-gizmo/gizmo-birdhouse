@@ -30,7 +30,7 @@ export const JPEG_QUALITY = Object.freeze({
 export const SENSITIVITIES = ['low', 'medium', 'high'];
 export const COOLDOWN_SECONDS = Object.freeze({
     min: 5,
-    max: 600,
+    max: 3600,
     default: 30
 });
 export const defaultSettings = () => ({
@@ -258,26 +258,31 @@ export const applySettings = ({ settings, body }) => {
     }
 };
 
-// Draw the photo of a visit: a bird on a perch, in the colors of the time of day (an SVG stands in for the JPEG of the card)
+// Draw the photo of a visit: a bird on its nest, seen from the camera inside the box (an SVG stands in for the JPEG of the card)
 export const buildVisitPhoto = ({ visit, isThumbnail }) => {
     const width = isThumbnail ? 320 : 1280;
     const height = isThumbnail ? 240 : 1024;
     const hue = (visit.id * 47) % 360;
+    const offset = (visit.id % 3) * 24;
     const label = visit.timestamp ? new Date(visit.timestamp * 1000).toISOString().slice(0, 16).replace('T', ' ') : 'time unknown';
 
-    // Return the SVG of the photo
+    // Return the SVG of the photo: the wooden walls, the light of the entrance hole, the nest and the bird on it
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 320 240">`
-        + '<rect width="320" height="240" fill="#2b3a2f"/>'
-        + '<rect y="170" width="320" height="12" fill="#8a5a33"/>'
-        + `<g transform="translate(${130 + (visit.id % 3) * 20} 80)">`
-        + `<ellipse cx="30" cy="55" rx="34" ry="28" fill="hsl(${hue} 55% 55%)"/>`
-        + `<circle cx="52" cy="24" r="18" fill="hsl(${hue} 55% 62%)"/>`
-        + '<circle cx="58" cy="20" r="3.5" fill="#1b222d"/>'
-        + '<path d="M68 24 L82 28 L68 31 Z" fill="#f7931a"/>'
-        + `<path d="M0 50 L-22 62 L4 66 Z" fill="hsl(${hue} 45% 42%)"/>`
-        + '<path d="M22 82 L22 92 M38 82 L38 92" stroke="#f7931a" stroke-width="3"/>'
+        + '<defs><radialGradient id="light" cx="0.78" cy="0.18" r="0.75"><stop offset="0" stop-color="#8a6a48"/><stop offset="1" stop-color="#2a2019"/></radialGradient></defs>'
+        + '<rect width="320" height="240" fill="url(#light)"/>'
+        + '<path d="M64 0 V240 M128 0 V240 M192 0 V240 M256 0 V240" stroke="#1f1813" stroke-opacity="0.5" stroke-width="2"/>'
+        + '<circle cx="250" cy="44" r="22" fill="#f3e6c4"/>'
+        + '<ellipse cx="160" cy="214" rx="150" ry="40" fill="#5a4128"/>'
+        + `<g transform="translate(${100 + offset} 112)">`
+        + `<path d="M8 58 L-26 50 L4 74 Z" fill="hsl(${hue} 40% 38%)"/>`
+        + `<ellipse cx="50" cy="62" rx="48" ry="36" fill="hsl(${hue} 50% 52%)"/>`
+        + `<circle cx="84" cy="26" r="24" fill="hsl(${hue} 50% 60%)"/>`
+        + '<circle cx="92" cy="20" r="4.5" fill="#1b222d"/>'
+        + '<path d="M106 26 L124 31 L106 36 Z" fill="#f7931a"/>'
         + '</g>'
-        + `<text x="10" y="226" font-family="sans-serif" font-size="12" fill="#eef3f8">Visit ${visit.id} · ${label} UTC</text>`
+        + '<path d="M18 206 Q90 186 160 204 T304 200 M30 222 Q110 200 190 220 T300 216 M12 232 Q120 212 220 232" stroke="#8a6a3e" stroke-width="3" fill="none"/>'
+        + '<ellipse cx="160" cy="236" rx="160" ry="22" fill="#3d2c1c"/>'
+        + `<text x="10" y="18" font-family="sans-serif" font-size="12" fill="#eef3f8">Visit ${visit.id} · ${label} UTC</text>`
         + '</svg>';
 };
 

@@ -1,15 +1,19 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { getQuery } from 'h3';
+import { getQuery, readBody } from 'h3';
 import { mountSuspended, registerEndpoint } from '@nuxt/test-utils/runtime';
-import LivePage from '~/pages/live.vue';
+import CameraPage from '~/pages/camera.vue';
 import DevicePage from '~/pages/device.vue';
 import { captureSnapshot, loadCamera } from '~/composables/useCamera.js';
 import { useGlobalStore } from '~/composables/stores/useGlobalStore.js';
 
-// Remember the dialogs instead of showing them (the tests check what they say)
+// Remember the dialogs instead of showing them (the tests check what they say, and confirm them)
 const shownDialogs = vi.hoisted(() => []);
+const confirmDialogs = vi.hoisted(() => []);
 vi.mock('@brumaombra/ui-vintage/message-dialog', () => ({
     showMessageDialog: dialog => shownDialogs.push(dialog)
+}));
+vi.mock('@brumaombra/ui-vintage/confirm-dialog', () => ({
+    showConfirmDialog: dialog => confirmDialogs.push(dialog)
 }));
 
 // The camera of the ESP32-CAM, as GET /api/camera answers it
@@ -19,6 +23,7 @@ const cameraDetails = {
     resolutions: [
         { name: 'QQVGA', width: 160, height: 120 },
         { name: 'VGA', width: 640, height: 480 },
+        { name: 'SXGA', width: 1280, height: 1024 },
         { name: 'UXGA', width: 1600, height: 1200 }
     ],
     defaultResolution: 'UXGA',
@@ -39,10 +44,12 @@ const deviceDetails = {
     signalQuality: 74
 };
 
-// The device API: its camera, the next snapshot error, and the queries of the snapshots
+// The device API: its camera, the next snapshot error, the queries of the snapshots, its settings and the settings the app sent
 let camera;
 let snapshotErrorId;
 let snapshotQueries;
+let settings;
+let sentSettings;
 
 // Answer like the device
 const registerDeviceEndpoints = () => {
@@ -63,20 +70,37 @@ const registerDeviceEndpoints = () => {
         event.node.res.setHeader('Content-Type', 'image/jpeg');
         return Buffer.alloc(2048, 1);
     });
+    registerEndpoint('/api/settings', {
+        method: 'GET',
+        handler: () => ({ errorId: null, errorMessage: null, data: settings })
+    });
+    registerEndpoint('/api/settings', {
+        method: 'POST',
+        handler: async event => {
+            sentSettings = await readBody(event);
+            settings = { ...settings, ...sentSettings };
+            return { errorId: null, errorMessage: null, data: settings };
+        }
+    });
 };
 
-// Start each test from a page that has not read the camera yet
+// Start each test from a page that has read neither the camera nor the settings yet
 beforeEach(() => {
     camera = structuredClone(cameraDetails);
     snapshotErrorId = null;
     snapshotQueries = [];
+    settings = { detectionEnabled: true, sensitivity: 'medium', cooldownSeconds: 30, photoResolution: 'SXGA', flash: false };
+    sentSettings = null;
     shownDialogs.length = 0;
+    confirmDialogs.length = 0;
     resetGizmoStore();
     const globalStore = useGlobalStore();
     globalStore.value.cameraLoaded = false;
     globalStore.value.cameraLoadFailed = false;
     globalStore.value.snapshotOptions = { resolution: '', quality: 10, flash: false };
     globalStore.value.snapshot = null;
+    globalStore.value.settingsLoaded = false;
+    globalStore.value.settingsLoadFailed = false;
     vi.spyOn(console, 'error').mockImplementation(() => {});
     vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:snapshot'); // Node's URL refuses the Blob of the simulated browser
     vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
@@ -118,7 +142,7 @@ describe('captureSnapshot', () => {
     // The error of the device arrives as a blob (the request asks for an image): it must be read, or the dialog can't translate it
     it('shows the translated error of the device', async () => {
         snapshotErrorId = 'camera_busy';
-        const wrapper = await mountSuspended(LivePage);
+        const wrapper = await mountSuspended(CameraPage);
         await vi.waitFor(() => expect(wrapper.text()).toContain('Take snapshot'));
         await wrapper.findAll('button').find(button => button.text().includes('Take snapshot')).trigger('click');
         await vi.waitFor(() => expect(shownDialogs.length).toBe(1));
@@ -126,24 +150,58 @@ describe('captureSnapshot', () => {
     });
 });
 
-// Live page: what it shows for each state of the camera
-describe('live page', () => {
-    // A working camera shows its options, with the flash
-    it('shows the options of the camera', async () => {
-        const wrapper = await mountSuspended(LivePage);
-        await vi.waitFor(() => expect(wrapper.text()).toContain('Resolution'));
+// Camera page: the live look inside, then the settings of the visit detection
+describe('camera page', () => {
+    // A working camera shows the snapshot options, with the flash, and the settings below them
+    it('shows the options of the camera and the settings', async () => {
+        const wrapper = await mountSuspended(CameraPage);
+        await vi.waitFor(() => expect(wrapper.find('form').exists()).toBe(true));
+        expect(wrapper.text()).toContain('No snapshot yet');
         expect(wrapper.text()).toContain('UXGA');
         expect(wrapper.text()).toContain('High');
         expect(wrapper.text()).toContain('Flash');
-        expect(wrapper.text()).toContain('No snapshot yet');
+        expect(wrapper.text()).toContain('Visit detection');
+        expect(wrapper.text()).toContain('SXGA');
     });
 
-    // A sensor that didn't start gets an explanation instead of a snapshot button that can only fail
+    // A sensor that didn't start gets an explanation instead of a snapshot button that can only fail, and no settings
     it('explains a camera that did not start', async () => {
         camera.available = false;
-        const wrapper = await mountSuspended(LivePage);
+        const wrapper = await mountSuspended(CameraPage);
         await vi.waitFor(() => expect(wrapper.text()).toContain('Camera not found'));
         expect(wrapper.text()).not.toContain('Take snapshot');
+        expect(wrapper.find('form').exists()).toBe(false);
+    });
+
+    // The form starts from the settings of the device, with the long waits in hours
+    it('shows the settings of the device', async () => {
+        settings.sensitivity = 'high';
+        settings.cooldownSeconds = 3600;
+        const wrapper = await mountSuspended(CameraPage);
+        await vi.waitFor(() => expect(wrapper.find('form').exists()).toBe(true));
+        expect(wrapper.find('form').text()).toContain('High');
+        expect(wrapper.find('form').text()).toContain('1 h');
+    });
+
+    // Saving sends the settings, after a confirmation
+    it('saves the settings', async () => {
+        const wrapper = await mountSuspended(CameraPage);
+        await vi.waitFor(() => expect(wrapper.find('form').exists()).toBe(true));
+        useGlobalStore().value.settings.flash = true;
+        await wrapper.find('form').trigger('submit');
+        expect(confirmDialogs).toHaveLength(1);
+        await confirmDialogs[0].onConfirm();
+        expect(sentSettings).toMatchObject({ detectionEnabled: true, sensitivity: 'medium', cooldownSeconds: 30, photoResolution: 'SXGA', flash: true });
+        expect(shownDialogs[0].message).toBe('Settings saved. The birdhouse uses them right away.');
+    });
+
+    // Settings that couldn't be read give no form, so the defaults of the store are never saved over the settings of the device (the snapshot still works)
+    it('offers no form without the settings of the device', async () => {
+        registerEndpoint('/api/settings', { method: 'GET', handler: () => { throw new Error('offline'); } });
+        const wrapper = await mountSuspended(CameraPage);
+        await vi.waitFor(() => expect(wrapper.text()).toContain("Couldn't read the settings"));
+        expect(wrapper.find('form').exists()).toBe(false);
+        expect(wrapper.text()).toContain('Take snapshot');
     });
 });
 
@@ -156,10 +214,10 @@ describe('device page', () => {
         expect(wrapper.text()).toContain('Forget network');
     });
 
-    // The live page is only about the snapshot
-    it('keeps the device card off the live page', async () => {
-        const wrapper = await mountSuspended(LivePage);
-        await vi.waitFor(() => expect(wrapper.text()).toContain('Resolution'));
+    // The camera page is only about the camera
+    it('keeps the device card off the camera page', async () => {
+        const wrapper = await mountSuspended(CameraPage);
+        await vi.waitFor(() => expect(wrapper.find('form').exists()).toBe(true));
         expect(wrapper.text()).not.toContain('Forget network');
     });
 });

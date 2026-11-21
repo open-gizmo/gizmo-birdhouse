@@ -17,13 +17,9 @@
             "label": "Visite",
             "description": "Gli uccellini passati, con le loro foto"
         },
-        "live": {
-            "label": "Dal vivo",
-            "description": "Guarda subito dentro la casetta"
-        },
-        "detection": {
-            "label": "Rilevamento",
-            "description": "Quando e come vengono fotografate le visite"
+        "camera": {
+            "label": "Fotocamera",
+            "description": "Guarda dentro la casetta e imposta le foto delle visite"
         },
         "device": {
             "label": "Dispositivo",
@@ -95,86 +91,87 @@
             "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova.",
             "loadRetryAction": "Riprova"
         },
-        "live": {
-            "title": "Dal vivo",
-            "emptyTitle": "Ancora nessuna foto",
-            "emptyDescription": "Scatta una foto per guardare subito dentro la casetta.",
-            "snapshotAlt": "Foto dal vivo della casetta",
-            "snapshotDetails": "{resolution} · {size} · scattata in {time} ms",
-            "snapshotAction": "Scatta foto",
-            "downloadAction": "Salva foto",
-            "takingSnapshot": "Scatto in corso...",
-            "snapshotError": "Si è verificato un errore durante lo scatto",
-            "optionsTitle": "Scatto",
-            "optionsHint": "Sensore {sensor}. Le foto più grandi e nitide impiegano di più ad arrivare.",
-            "resolution": {
-                "label": "Risoluzione",
-                "note": "La dimensione della foto in pixel."
-            },
-            "quality": {
-                "label": "Qualità",
-                "note": "Le foto più nitide sono file più grandi.",
-                "best": "Massima",
-                "bestMeta": "La più nitida, file più grandi",
-                "high": "Alta",
-                "highMeta": "Nitida, quella predefinita",
-                "medium": "Media",
-                "mediumMeta": "File più piccoli, un po' meno nitida",
-                "low": "Bassa",
-                "lowMeta": "File più piccoli, visibilmente meno nitida"
-            },
-            "flash": {
-                "label": "Flash",
-                "description": "Si accende durante lo scatto (può spaventare un uccellino dentro)"
-            },
+        "camera": {
+            "title": "Fotocamera",
             "unavailableTitle": "Fotocamera non trovata",
             "unavailableDescription": "Il sensore della fotocamera non si è avviato. Controlla che il cavo flat sia inserito fino in fondo e bloccato, poi riavvia il dispositivo.",
             "loadErrorTitle": "Impossibile leggere la fotocamera",
             "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova.",
-            "loadRetryAction": "Riprova"
-        },
-        "detection": {
-            "title": "Rilevamento",
-            "watchTitle": "Visite",
-            "watchHint": "La fotocamera osserva la casetta e scatta una foto quando l'immagine cambia, come quando entra un uccellino.",
-            "enabled": {
-                "label": "Fotografa le visite",
-                "description": "Serve una scheda microSD"
+            "loadRetryAction": "Riprova",
+            "live": {
+                "emptyTitle": "Ancora nessuna foto",
+                "emptyDescription": "Scatta una foto per guardare subito dentro la casetta.",
+                "snapshotAlt": "Foto dal vivo della casetta",
+                "snapshotDetails": "{resolution} · {size} · scattata in {time} ms",
+                "snapshotAction": "Scatta foto",
+                "downloadAction": "Salva foto",
+                "takingSnapshot": "Scatto in corso...",
+                "snapshotError": "Si è verificato un errore durante lo scatto",
+                "optionsTitle": "Scatto",
+                "optionsHint": "Sensore {sensor}. Le foto più grandi e nitide impiegano di più ad arrivare.",
+                "resolution": {
+                    "label": "Risoluzione",
+                    "note": "La dimensione della foto in pixel."
+                },
+                "quality": {
+                    "label": "Qualità",
+                    "note": "Le foto più nitide sono file più grandi.",
+                    "best": "Massima",
+                    "bestMeta": "La più nitida, file più grandi",
+                    "high": "Alta",
+                    "highMeta": "Nitida, quella predefinita",
+                    "medium": "Media",
+                    "mediumMeta": "File più piccoli, un po' meno nitida",
+                    "low": "Bassa",
+                    "lowMeta": "File più piccoli, visibilmente meno nitida"
+                },
+                "flash": {
+                    "label": "Flash",
+                    "description": "Luce bianca forte: può far scappare un uccellino dal nido"
+                }
             },
-            "sensitivity": {
-                "label": "Sensibilità",
-                "note": "Quanto deve cambiare l'immagine per contare come visita.",
-                "low": "Bassa",
-                "lowMeta": "Solo grandi cambiamenti, vicino alla fotocamera",
-                "medium": "Media",
-                "mediumMeta": "Un uccellino all'ingresso, quella predefinita",
-                "high": "Alta",
-                "highMeta": "Anche gli uccellini piccoli, e più visite false"
-            },
-            "cooldown": {
-                "label": "Attesa tra le foto",
-                "note": "Un uccellino che resta viene fotografato una volta in questo tempo.",
-                "seconds": "{count} s",
-                "minutes": "{count} min"
-            },
-            "photoTitle": "Foto delle visite",
-            "photoHint": "Sensore {sensor}. Le foto più grandi sono più nitide e riempiono prima la scheda: le visite più vecchie fanno spazio alle nuove.",
-            "resolution": {
-                "label": "Risoluzione",
-                "note": "La dimensione in pixel delle foto delle visite."
-            },
-            "flash": {
-                "label": "Flash",
-                "description": "Per una casetta buia (può spaventare gli uccellini)"
-            },
-            "saveAction": "Salva impostazioni",
-            "saveConfirmTitle": "Salva impostazioni",
-            "saveConfirmMessage": "Salvare queste impostazioni sulla casetta?",
-            "saveSuccess": "Impostazioni salvate. La casetta le usa subito.",
-            "saveError": "Si è verificato un errore durante il salvataggio delle impostazioni",
-            "loadErrorTitle": "Impossibile leggere le impostazioni",
-            "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova.",
-            "loadRetryAction": "Riprova"
+            "detection": {
+                "watchTitle": "Rilevamento delle visite",
+                "watchHint": "La fotocamera osserva l'interno della casetta e scatta una foto quando l'immagine cambia, come quando entra un uccellino.",
+                "enabled": {
+                    "label": "Fotografa le visite",
+                    "description": "Serve una scheda microSD"
+                },
+                "sensitivity": {
+                    "label": "Sensibilità",
+                    "note": "Quanto deve cambiare l'immagine per contare come visita.",
+                    "low": "Bassa",
+                    "lowMeta": "Solo grandi cambiamenti, vicino alla fotocamera",
+                    "medium": "Media",
+                    "mediumMeta": "Un uccellino che entra, quella predefinita",
+                    "high": "Alta",
+                    "highMeta": "Anche gli uccellini piccoli, e più visite false"
+                },
+                "cooldown": {
+                    "label": "Attesa tra le foto",
+                    "note": "Un uccellino che resta dentro, come uno che cova, riceve una foto in questo tempo.",
+                    "seconds": "{count} s",
+                    "minutes": "{count} min",
+                    "hours": "{count} h"
+                },
+                "photoTitle": "Foto delle visite",
+                "photoHint": "Le foto più grandi sono più nitide e riempiono prima la scheda: le visite più vecchie fanno spazio alle nuove.",
+                "resolution": {
+                    "label": "Risoluzione",
+                    "note": "La dimensione in pixel delle foto delle visite."
+                },
+                "flash": {
+                    "label": "Flash",
+                    "description": "Illumina la casetta buia, ma la luce bianca forte può far scappare un uccellino dal nido"
+                },
+                "saveAction": "Salva impostazioni",
+                "saveConfirmTitle": "Salva impostazioni",
+                "saveConfirmMessage": "Salvare queste impostazioni sulla casetta?",
+                "saveSuccess": "Impostazioni salvate. La casetta le usa subito.",
+                "saveError": "Si è verificato un errore durante il salvataggio delle impostazioni",
+                "loadErrorTitle": "Impossibile leggere le impostazioni",
+                "loadErrorDescription": "Il dispositivo non ha risposto. Controlla che sia acceso e sulla stessa rete, poi riprova."
+            }
         },
         "device": {
             "title": "Dispositivo",

@@ -17,7 +17,7 @@ export const useGlobalStore = () => useState('global', () => ({
     // Flag to track whether the camera has been read at least once
     cameraLoaded: false,
 
-    // Flag set when the camera couldn't be read (the live page then offers to try again)
+    // Flag set when the camera couldn't be read (the camera page then offers to try again)
     cameraLoadFailed: false,
 
     // Options of the next live snapshot (the resolution is set to the camera's default once it's read)
@@ -48,9 +48,9 @@ export const useGlobalStore = () => useState('global', () => ({
         flash: false
     },
 
-    // Flag to track whether the settings have been read (the detection page never saves the defaults above)
+    // Flag to track whether the settings have been read (the camera page never saves the defaults above)
     settingsLoaded: false,
 
-    // Flag set when the settings couldn't be read (the detection page then offers to try again)
+    // Flag set when the settings couldn't be read (the camera page then offers to try again)
     settingsLoadFailed: false
 }));

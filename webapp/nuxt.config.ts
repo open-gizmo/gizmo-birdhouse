@@ -69,8 +69,7 @@ export default defineNuxtConfig({
             routes: [
                 '/',
                 '/visits',
-                '/live',
-                '/detection',
+                '/camera',
                 '/device'
             ]
         }

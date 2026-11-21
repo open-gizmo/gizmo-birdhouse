@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readBody } from 'h3';
 import { mountSuspended, registerEndpoint } from '@nuxt/test-utils/runtime';
 import VisitsPage from '~/pages/visits.vue';
-import DetectionPage from '~/pages/detection.vue';
 import DevicePage from '~/pages/device.vue';
 import { loadVisits, removeVisit, VISITS_PAGE_SIZE } from '~/composables/useBirdhouse.js';
 import { buildVisitPhotoUrl } from '~/composables/useDeviceApi.js';
@@ -18,20 +17,6 @@ vi.mock('@brumaombra/ui-vintage/message-dialog', () => ({
 vi.mock('@brumaombra/ui-vintage/confirm-dialog', () => ({
     showConfirmDialog: dialog => confirmDialogs.push(dialog)
 }));
-
-// The camera of the ESP32-CAM, as GET /api/camera answers it
-const cameraDetails = {
-    available: true,
-    sensor: 'OV2640',
-    resolutions: [
-        { name: 'VGA', width: 640, height: 480 },
-        { name: 'SXGA', width: 1280, height: 1024 },
-        { name: 'UXGA', width: 1600, height: 1200 }
-    ],
-    defaultResolution: 'UXGA',
-    quality: { min: 4, max: 63, default: 10 },
-    hasFlash: true
-};
 
 // Details of the device, as GET /api/device answers them (the device card of the gizmo-common layer reads them)
 const deviceDetails = {
@@ -53,17 +38,14 @@ const makeVisits = count => Array.from({ length: count }, (_, index) => ({
     sizeBytes: 150000
 }));
 
-// The device: its status, its visits, its settings, and what the app sent
+// The device: its status, its visits, and what the app sent
 let status;
 let visits;
-let settings;
-let sentSettings;
 let deletedIds;
 let visitQueries;
 
 // Answer like the device
 const registerDeviceEndpoints = () => {
-    registerEndpoint('/api/camera', () => ({ errorId: null, errorMessage: null, data: cameraDetails }));
     registerEndpoint('/api/device', () => ({ errorId: null, errorMessage: null, data: deviceDetails }));
     registerEndpoint('/api/status', () => ({ errorId: null, errorMessage: null, data: status }));
     registerEndpoint('/api/visits', event => {
@@ -82,18 +64,6 @@ const registerDeviceEndpoints = () => {
             return { errorId: null, errorMessage: null, data: null };
         }
     });
-    registerEndpoint('/api/settings', {
-        method: 'GET',
-        handler: () => ({ errorId: null, errorMessage: null, data: settings })
-    });
-    registerEndpoint('/api/settings', {
-        method: 'POST',
-        handler: async event => {
-            sentSettings = await readBody(event);
-            settings = { ...settings, ...sentSettings };
-            return { errorId: null, errorMessage: null, data: settings };
-        }
-    });
 };
 
 // Start each test from an app that has read nothing yet, and a birdhouse with three visits
@@ -106,23 +76,17 @@ beforeEach(() => {
         clockSet: true
     };
     visits = makeVisits(3);
-    settings = { detectionEnabled: true, sensitivity: 'medium', cooldownSeconds: 30, photoResolution: 'SXGA', flash: false };
-    sentSettings = null;
     deletedIds = [];
     visitQueries = [];
     shownDialogs.length = 0;
     confirmDialogs.length = 0;
     const globalStore = useGlobalStore();
     Object.assign(globalStore.value, {
-        cameraLoaded: false,
-        cameraLoadFailed: false,
         status: null,
         visits: [],
         visitTotal: 0,
         visitsLoaded: false,
-        visitsLoadFailed: false,
-        settingsLoaded: false,
-        settingsLoadFailed: false
+        visitsLoadFailed: false
     });
     vi.spyOn(console, 'error').mockImplementation(() => {});
     registerDeviceEndpoints();
@@ -234,41 +198,6 @@ describe('visits page', () => {
         visits = makeVisits(VISITS_PAGE_SIZE + 1);
         const wrapper = await mountSuspended(VisitsPage);
         await vi.waitFor(() => expect(wrapper.text()).toContain('Show older visits'));
-    });
-});
-
-// Detection page: the settings of the visit detection
-describe('detection page', () => {
-    // The form starts from the settings of the device
-    it('shows the settings of the device', async () => {
-        settings.sensitivity = 'high';
-        settings.cooldownSeconds = 120;
-        const wrapper = await mountSuspended(DetectionPage);
-        await vi.waitFor(() => expect(wrapper.text()).toContain('Sensitivity'));
-        expect(wrapper.text()).toContain('High');
-        expect(wrapper.text()).toContain('2 min');
-        expect(wrapper.text()).toContain('SXGA');
-        expect(wrapper.text()).toContain('Sensor OV2640');
-    });
-
-    // Saving sends the settings, after a confirmation
-    it('saves the settings', async () => {
-        const wrapper = await mountSuspended(DetectionPage);
-        await vi.waitFor(() => expect(wrapper.find('form').exists()).toBe(true));
-        useGlobalStore().value.settings.flash = true;
-        await wrapper.find('form').trigger('submit');
-        expect(confirmDialogs).toHaveLength(1);
-        await confirmDialogs[0].onConfirm();
-        expect(sentSettings).toMatchObject({ detectionEnabled: true, sensitivity: 'medium', cooldownSeconds: 30, photoResolution: 'SXGA', flash: true });
-        expect(shownDialogs[0].message).toBe('Settings saved. The birdhouse uses them right away.');
-    });
-
-    // Settings that couldn't be read give no form, so the defaults of the store are never saved over the settings of the device
-    it('offers no form without the settings of the device', async () => {
-        registerEndpoint('/api/settings', { method: 'GET', handler: () => { throw new Error('offline'); } });
-        const wrapper = await mountSuspended(DetectionPage);
-        await vi.waitFor(() => expect(wrapper.text()).toContain("Couldn't read the settings"));
-        expect(wrapper.find('form').exists()).toBe(false);
     });
 });
 

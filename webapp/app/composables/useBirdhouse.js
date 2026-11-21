@@ -57,7 +57,7 @@ export const removeAllVisits = async () => {
     await loadStatus();
 };
 
-// Read the settings into the store, and remember a failure (so the detection page never saves the store defaults)
+// Read the settings into the store, and remember a failure (so the camera page never saves the store defaults)
 export const loadSettings = async () => {
     const globalStore = useGlobalStore();
 

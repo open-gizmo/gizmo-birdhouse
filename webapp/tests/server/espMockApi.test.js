@@ -241,7 +241,7 @@ describe('mock settings', () => {
         [{ detectionEnabled: 1 }, 'detectionEnabled'],
         [{ sensitivity: 'extreme' }, 'sensitivity'],
         [{ cooldownSeconds: 4 }, 'cooldownSeconds'],
-        [{ cooldownSeconds: 601 }, 'cooldownSeconds'],
+        [{ cooldownSeconds: 3601 }, 'cooldownSeconds'],
         [{ cooldownSeconds: 30.5 }, 'cooldownSeconds'],
         [{ photoResolution: 'FHD' }, 'photoResolution'],
         [{ flash: 'yes' }, 'flash'],

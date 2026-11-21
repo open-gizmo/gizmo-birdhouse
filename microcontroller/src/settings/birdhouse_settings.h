@@ -16,7 +16,7 @@ enum class Sensitivity : uint8_t {
 
 // Seconds to wait after a visit photo before the next one, so a bird that stays doesn't fill the card
 constexpr uint16_t COOLDOWN_SECONDS_MIN = 5;
-constexpr uint16_t COOLDOWN_SECONDS_MAX = 600;
+constexpr uint16_t COOLDOWN_SECONDS_MAX = 3600;
 constexpr uint16_t COOLDOWN_SECONDS_DEFAULT = 30;
 
 // Default resolution of the visit photos (SXGA, 1280 x 1024: sharp, and about 150 KB on the card)

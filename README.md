@@ -57,15 +57,15 @@ Under the hood everything is plain HTTP: the visits are a JSON list at `/api/vis
 				<img src="docs/screenshot-visit.png" alt="Photo of a visit" width="180">
 			</td>
 			<td align="center" valign="top">
-				<img src="docs/screenshot-detection.png" alt="Detection screen" width="180">
+				<img src="docs/screenshot-camera.png" alt="Camera screen" width="180">
 			</td>
 			<td align="center" valign="top">
-				<img src="docs/screenshot-live.png" alt="Live screen" width="180">
+				<img src="docs/screenshot-camera-settings.png" alt="Visit detection settings on the Camera screen" width="180">
 			</td>
 		</tr>
 	</table>
 	<p>
-		<sub>Visits, the photo of a visit, Detection and Live screens (the web app's development server, with drawn birds and a test card instead of photos)</sub>
+		<sub>Visits, the photo of a visit, and the Camera screen with its live snapshot and the visit detection settings (the web app's development server, with drawn birds and a test card instead of photos)</sub>
 	</p>
 </div>
 
@@ -73,7 +73,7 @@ Under the hood everything is plain HTTP: the visits are a JSON list at `/api/vis
 ## ✨ Features
 
 - Visit detection with the camera itself, no extra sensor: it compares each frame with the picture of the empty birdhouse, and leaves out the changes of light across the whole picture (a cloud, the evening).
-- Three sensitivities, and a wait between photos (5 s to 10 min) so a bird that stays isn't photographed every second.
+- Three sensitivities, and a wait between photos (5 s to 1 h) so a bird that stays, like one sitting on its nest, isn't photographed every second.
 - The photo of each visit (up to 1600 × 1200, SXGA by default) and a small picture of the moment the bird was seen, saved on the microSD card with the date and time from the internet.
 - The oldest visits make room for the new ones when the card fills up, or after 1000 visits.
 - Live snapshots at any resolution and quality, with the on-board flash LED.
@@ -244,8 +244,7 @@ Logging, the web API helpers, the device API and the whole Wi-Fi setup (connecti
 ### 🌐 Web App Overview
 
 - **Visits** (the home page): what the birdhouse is doing (watching, off, no card), the last visit and the space on the card, then the visits newest first. Open one to see its photo, save it as a JPEG or delete it; **Delete all visits** empties the card.
-- **Live**: a snapshot right now, at the resolution and quality you choose, with the flash.
-- **Detection**: switch the visit photos on or off, and choose the sensitivity, the wait between photos, the resolution of the photos and the flash.
+- **Camera**: a snapshot right now, at the resolution and quality you choose, with the flash; below it, switch the visit photos on or off, and choose the sensitivity, the wait between photos, the resolution of the photos and the flash.
 - **Device**: the device card of gizmo-common (name, firmware, uptime, memory, network, restart, forget network), and **Reset saved settings**.
 - **WiFi**: the network setup of gizmo-common.
 - During development (`npm run dev`), a mock device in `webapp/server/` answers like the firmware, with a few drawn birds as visits and a test card in place of the live photo.
@@ -272,13 +271,13 @@ Nothing needs a secrets file: the Wi-Fi is set from the phone and saved on the b
 
 ### Settings
 
-Set from the **Detection** tab, or with `POST /api/settings` (every field optional):
+Set from the **Camera** tab, or with `POST /api/settings` (every field optional):
 
 | Field | Values | Default |
 | --- | --- | --- |
 | `detectionEnabled` | `true`, `false` | `true` |
 | `sensitivity` | `low`, `medium`, `high` | `medium` |
-| `cooldownSeconds` | `5` to `600` | `30` |
+| `cooldownSeconds` | `5` to `3600` | `30` |
 | `photoResolution` | a resolution of `/api/camera` | `SXGA` |
 | `flash` | `true`, `false` | `false` |
 
@@ -323,9 +322,11 @@ The workflow only runs on `main`, and needs these secrets, on the repository or 
 
 - The Visits tab says "No microSD card": check the card is FAT32 (cards over 32 GB come as exFAT) and fully inserted, then press RST. The card is only read at boot.
 - Visits have no date: the birdhouse sets its clock from the internet, so it needs a network that reaches it. Visits taken before that show their number instead.
-- Too many visits with no bird (a moving shadow, leaves at the entrance): lower the sensitivity in the Detection tab, or point the camera away from the entrance hole's sunlight.
+- Too many visits with no bird (a moving shadow, leaves at the entrance): lower the sensitivity in the Camera tab, or point the camera away from the entrance hole's sunlight.
 - Small birds are missed: raise the sensitivity, or move the camera closer to where they land.
-- Photos are dark: the inside of a birdhouse is dim. Switch on the flash in the Detection tab, knowing it can scare the birds, or let some light in through a window in the enclosure.
+- Photos are dark: the inside of a birdhouse is dim. Let some light in through a small window or a gap under the roof. The flash in the Camera tab lights up the box, but its bright white light can scare off a nesting pair: keep it for an empty box, or for a quick look.
+- Photos are blurry: the lens of the OV2640 is focused far away, and inside the box the bird is only about 10 cm from it. Before closing the box, turn the lens a little counterclockwise (some come glued: break the drop of glue carefully) until a snapshot of something 10 cm away is sharp.
+- Hundreds of photos of the same bird: a bird sitting on its nest moves all the time. Set a longer wait between photos (30 min or 1 h) in the Camera tab while the box is in use.
 - A live snapshot answers `camera_busy`: the birdhouse was taking a visit photo at the same moment. Try again once it's done.
 - The board restarts when the flash fires or during Wi-Fi setup: the ESP32-CAM draws current peaks a weak USB port or a thin cable can't supply (a brownout). Use a good 5 V supply.
 - The web UI does not open after joining Wi-Fi: make sure your phone is on the same network as the birdhouse and try `gizmo-birdhouse.local`, or the IP address shown by your router.

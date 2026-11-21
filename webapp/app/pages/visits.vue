@@ -191,7 +191,7 @@ definePageMeta({
         <template v-else>
             <!-- What the birdhouse is doing -->
             <ListGroup :title="t('pages.visits.statusTitle')" :hint="statusHint">
-                <ListRow :label="t('pages.visits.detection.label')" :icon="Radar01Icon" :value="detectionLabel" to="/detection" />
+                <ListRow :label="t('pages.visits.detection.label')" :icon="Radar01Icon" :value="detectionLabel" to="/camera" />
                 <ListRow :label="t('pages.visits.lastVisit.label')" :icon="Clock01Icon" :value="lastVisitLabel" />
                 <ListRow :label="t('pages.visits.storage.label')" :icon="SdCardIcon" :value="storageLabel" wrap-value />
             </ListGroup>

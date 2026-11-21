@@ -7,7 +7,7 @@ For AI agents (Claude Code, Codex, Copilot and others) working on this repositor
 Gizmo Birdhouse turns an AI Thinker ESP32-CAM inside a 3D-printed birdhouse into a camera that photographs the birds that come to visit.
 
 - `microcontroller/` is the PlatformIO firmware for the ESP32-CAM (OV2640 sensor, flash LED, microSD slot, 4 MB PSRAM). It watches the camera for motion, saves a photo of each visit on the microSD card, runs the Wi-Fi setup (from gizmo-common), and serves the web app and its API.
-- `webapp/` is the Nuxt 4 web app, embedded in the firmware: the Visits, Live and Detection pages, the device card and the Wi-Fi setup. It extends the [gizmo-common](https://github.com/open-gizmo/gizmo-common) web layer, and the mock device in `webapp/server/` answers like the firmware during development.
+- `webapp/` is the Nuxt 4 web app, embedded in the firmware: the Visits and Camera pages (the Camera page holds the live snapshot and the detection settings), the device card and the Wi-Fi setup. It extends the [gizmo-common](https://github.com/open-gizmo/gizmo-common) web layer, and the mock device in `webapp/server/` answers like the firmware during development.
 
 ## Structure
 

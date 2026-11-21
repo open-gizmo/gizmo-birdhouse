@@ -97,7 +97,7 @@ void test_refuses_invalid_fields() {
 		{ "{\"sensitivity\":\"extreme\"}", "sensitivity" },
 		{ "{\"sensitivity\":2}", "sensitivity" },
 		{ "{\"cooldownSeconds\":4}", "cooldownSeconds" },
-		{ "{\"cooldownSeconds\":601}", "cooldownSeconds" },
+		{ "{\"cooldownSeconds\":3601}", "cooldownSeconds" },
 		{ "{\"cooldownSeconds\":30.5}", "cooldownSeconds" },
 		{ "{\"cooldownSeconds\":\"30\"}", "cooldownSeconds" },
 		{ "{\"photoResolution\":\"4K\"}", "photoResolution" },
@@ -118,8 +118,8 @@ void test_refuses_invalid_fields() {
 void test_accepts_the_cooldown_range_ends() {
 	const char *invalidField = nullptr;
 	TEST_ASSERT_TRUE(apply("{\"cooldownSeconds\":5}", invalidField));
-	TEST_ASSERT_TRUE(apply("{\"cooldownSeconds\":600}", invalidField));
-	TEST_ASSERT_EQUAL_UINT16(600, settings.cooldownSeconds);
+	TEST_ASSERT_TRUE(apply("{\"cooldownSeconds\":3600}", invalidField));
+	TEST_ASSERT_EQUAL_UINT16(3600, settings.cooldownSeconds);
 }
 
 // Run the tests

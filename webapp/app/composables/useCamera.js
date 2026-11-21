@@ -1,7 +1,7 @@
 import { getCamera, takeSnapshot } from '~/composables/useDeviceApi.js';
 import { useGlobalStore } from '~/composables/stores/useGlobalStore.js';
 
-// Load what the camera can do into the store, and remember a failure (so the live page offers to try again)
+// Load what the camera can do into the store, and remember a failure (so the camera page offers to try again)
 export const loadCamera = async () => {
     const globalStore = useGlobalStore();
 
@@ -25,7 +25,7 @@ export const loadCamera = async () => {
             options.quality = globalStore.value.camera.quality.default;
         }
     } catch (error) {
-        // Remember the failure, so the live page offers to try again
+        // Remember the failure, so the camera page offers to try again
         globalStore.value.cameraLoadFailed = true;
         throw error;
     }
