@@ -7,6 +7,10 @@
 Gizmo Birdhouse is a two-part project that puts an AI Thinker ESP32-CAM inside a 3D-printed birdhouse: ESP32 firmware that notices when a bird comes in and saves its photo on a microSD card, and a Nuxt 4 web app, built into the firmware, to see the visits and set it up from your phone.
 
 <p>
+  <img alt="The Gizmo Birdhouse in its white and orange printed enclosure, with its arched roof and orange entrance ring, and opened up: the body slid forward out of the roof, the camera lid lifted off the ESP32-CAM, the entrance ring and the back plate" src="docs/enclosure-render.webp" width="800">
+</p>
+
+<p>
   <a href="https://github.com/open-gizmo/gizmo-birdhouse"><img alt="GitHub Repo" src="https://img.shields.io/badge/github-open--gizmo%2Fgizmo--birdhouse-111111?logo=github"></a>
   <img alt="ESP32" src="https://img.shields.io/badge/esp32-ESP32-E7352C?logo=espressif&logoColor=white">
   <img alt="PlatformIO" src="https://img.shields.io/badge/platformio-PlatformIO-FF6B35?logo=platformio&logoColor=white">
@@ -19,6 +23,7 @@ Gizmo Birdhouse is a two-part project that puts an AI Thinker ESP32-CAM inside a
 </p>
 
 <p>
+	<a href="#enclosure"><strong>Enclosure</strong></a> •
 	<a href="#overview"><strong>Overview</strong></a> •
 	<a href="#images"><strong>Images</strong></a> •
 	<a href="#features"><strong>Features</strong></a> •
@@ -31,6 +36,16 @@ Gizmo Birdhouse is a two-part project that puts an AI Thinker ESP32-CAM inside a
 	<a href="#license"><strong>License</strong></a>
 </p>
 
+</div>
+
+<a id="enclosure"></a>
+## 📐 Enclosure
+
+<div align="center">
+	<img src="docs/enclosure-blueprint.webp" alt="A blueprint of the Gizmo Birdhouse enclosure, with a callout for each detail" width="800">
+	<p>
+		<sub>The two-color printed nest box: a white body with a false ceiling and the camera case on top, an orange back plate with the roof it slides into like a drawer, the camera lid and the entrance ring</sub>
+	</p>
 </div>
 
 <a id="overview"></a>
