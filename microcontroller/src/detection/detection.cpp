@@ -5,7 +5,7 @@
 #include "motion_detector.h"
 #include "../camera/camera.h"
 #include "../clock/clock.h"
-#include "../settings/settings_storage.h"
+#include "../storage/storage.h"
 #include "../visits/visit_store.h"
 #include "../serial/serial.h"
 

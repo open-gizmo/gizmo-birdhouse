@@ -19,7 +19,11 @@ void setupStatusGetRoute();
 void setupVisitsRoutes();
 void setupSettingsRoutes();
 void setupResetSettingsPostRoute();
+void setupAgentGuideRoute();
 void setupCaptivePortalRoute();
+
+// Send the guide for AI agents (Markdown)
+void sendAgentGuide(AsyncWebServerRequest *request);
 
 // Read a query parameter, or nullptr when the request leaves it out (the pointer stays valid while the request lives)
 const char *getQueryValue(AsyncWebServerRequest *request, const char *name);

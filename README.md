@@ -7,6 +7,10 @@
 Gizmo Birdhouse is a two-part project that puts an AI Thinker ESP32-CAM inside a 3D-printed birdhouse: ESP32 firmware that notices when a bird comes in and saves its photo on a microSD card, and a Nuxt 4 web app, built into the firmware, to see the visits and set it up from your phone.
 
 <p>
+  <img alt="The Gizmo Birdhouse in its white and orange printed enclosure, with its arched roof and orange entrance ring, and opened up: the body slid forward out of the roof, the camera lid lifted off the ESP32-CAM, the entrance ring and the back plate" src="docs/enclosure-render.webp" width="800">
+</p>
+
+<p>
   <a href="https://github.com/open-gizmo/gizmo-birdhouse"><img alt="GitHub Repo" src="https://img.shields.io/badge/github-open--gizmo%2Fgizmo--birdhouse-111111?logo=github"></a>
   <img alt="ESP32" src="https://img.shields.io/badge/esp32-ESP32-E7352C?logo=espressif&logoColor=white">
   <img alt="PlatformIO" src="https://img.shields.io/badge/platformio-PlatformIO-FF6B35?logo=platformio&logoColor=white">
@@ -19,6 +23,7 @@ Gizmo Birdhouse is a two-part project that puts an AI Thinker ESP32-CAM inside a
 </p>
 
 <p>
+	<a href="#enclosure"><strong>Enclosure</strong></a> •
 	<a href="#overview"><strong>Overview</strong></a> •
 	<a href="#images"><strong>Images</strong></a> •
 	<a href="#features"><strong>Features</strong></a> •
@@ -31,6 +36,16 @@ Gizmo Birdhouse is a two-part project that puts an AI Thinker ESP32-CAM inside a
 	<a href="#license"><strong>License</strong></a>
 </p>
 
+</div>
+
+<a id="enclosure"></a>
+## 📐 Enclosure
+
+<div align="center">
+	<img src="docs/enclosure-blueprint.webp" alt="A blueprint of the Gizmo Birdhouse enclosure, with a callout for each detail" width="800">
+	<p>
+		<sub>The two-color printed nest box: a white body with a false ceiling and the camera case on top, an orange back plate with the roof it slides into like a drawer, the camera lid and the entrance ring</sub>
+	</p>
 </div>
 
 <a id="overview"></a>
@@ -59,13 +74,18 @@ Under the hood everything is plain HTTP: the visits are a JSON list at `/api/vis
 			<td align="center" valign="top">
 				<img src="docs/screenshot-camera.png" alt="Camera screen" width="180">
 			</td>
+		</tr>
+		<tr>
 			<td align="center" valign="top">
 				<img src="docs/screenshot-camera-settings.png" alt="Visit detection settings on the Camera screen" width="180">
+			</td>
+			<td align="center" valign="top">
+				<img src="docs/screenshot-wifi.png" alt="Wi-Fi setup screen" width="180">
 			</td>
 		</tr>
 	</table>
 	<p>
-		<sub>Visits, the photo of a visit, and the Camera screen with its live snapshot and the visit detection settings (the web app's development server, with drawn birds and a test card instead of photos)</sub>
+		<sub>Visits, the photo of a visit, the Camera screen with its live snapshot and the visit detection settings, and the Wi-Fi setup (the web app's development server, with drawn birds and a test card instead of photos)</sub>
 	</p>
 </div>
 
@@ -79,6 +99,7 @@ Under the hood everything is plain HTTP: the visits are a JSON list at `/api/vis
 - Live snapshots at any resolution and quality, with the on-board flash LED.
 - ESP32 firmware with Wi-Fi setup, an embedded HTTP server, and the web app built in.
 - A small HTTP API (`/api/status`, `/api/visits`, `/api/visits/photo`, `/api/capture`, `/api/settings`) that scripts and other devices can call directly.
+- A Markdown guide for AI agents at `/llms.txt`, describing the birdhouse and its API with its address filled in.
 - Nuxt 4 interface to browse, save and delete the visits, take live snapshots, and set the detection.
 - `@brumaombra/ui-vintage` UI system shared across layout, forms, dialogs, and overlays.
 - English and Italian localization.
@@ -197,10 +218,11 @@ The firmware is split into focused modules under `microcontroller/src/`:
 - 📷 `camera/` starts the sensor and takes snapshots (`camera.*`), with the resolutions and the reading of the request options kept hardware-free in `capture_options.*`. The pins are in `camera_pins.h`.
 - 🐦 `detection/` watches the camera (`detection.*`), with the comparison of the frames kept hardware-free in `motion_detector.*`.
 - 💾 `visits/` keeps the visits on the card (`visit_store.*`), with their file names (`visit_files.*`) and the list in memory (`visit_index.*`) hardware-free.
-- 🎛️ `settings/` holds the settings of the detection (`birdhouse_settings.*`, hardware-free) and saves them in the flash (`settings_storage.*`).
+- 💾 `storage/` saves the settings with `Preferences`.
 - 🕒 `clock/` sets the time from the internet.
-- ⚙️ `config/` holds the project name and the shared web server.
-- 🌐 `server/` exposes the embedded HTTP routes (the API and the web app).
+- ⚙️ `config/` holds the project name, the shared web server, and the settings of the detection (`birdhouse_settings.*`, hardware-free).
+- 📖 `guide/` writes the Markdown guide for AI agents (`agent_guide.*`), hardware-free.
+- 🌐 `server/` exposes the embedded HTTP routes (the API, `/llms.txt`, and the web app).
 - 🧾 `serial/` turns on the serial log in the debug build.
 - 🔌 `wifi/` gives the birdhouse's names to the shared Wi-Fi setup.
 
@@ -221,7 +243,7 @@ The firmware is split into focused modules under `microcontroller/src/`:
 
 ### 🧪 Tests
 
-The hardware-free logic (the snapshot options, the motion detector, the visit file names and list, and the settings) is tested on your computer, no board needed:
+The hardware-free logic (the snapshot options, the motion detector, the visit file names and list, the settings and the guide for agents) is tested on your computer, no board needed:
 
 ```bash
 cd microcontroller
@@ -246,7 +268,7 @@ Logging, the web API helpers, the device API and the whole Wi-Fi setup (connecti
 - **Visits** (the home page): what the birdhouse is doing (watching, off, no card), the last visit and the space on the card, then the visits newest first. Open one to see its photo, save it as a JPEG or delete it; **Delete all visits** empties the card.
 - **Camera**: a snapshot right now, at the resolution and quality you choose, with the flash; below it, switch the visit photos on or off, and choose the sensitivity, the wait between photos, the resolution of the photos and the flash.
 - **Device**: the device card of gizmo-common (name, firmware, uptime, memory, network, restart, forget network), and **Reset saved settings**.
-- **WiFi**: the network setup of gizmo-common.
+- **Wi-Fi**: the network setup of gizmo-common.
 - During development (`npm run dev`), a mock device in `webapp/server/` answers like the firmware, with a few drawn birds as visits and a test card in place of the live photo.
 
 #### 🎨 UI System
@@ -305,6 +327,28 @@ curl -o visit.jpg "http://gizmo-birdhouse.local/api/visits/photo?id=12"
 ```
 
 Errors are JSON, in the format of every OpenGizmo device: `{ "errorId": "visit_not_found", "errorMessage": "...", "data": null }`.
+
+### Guide for AI agents
+
+The birdhouse describes itself in Markdown for agents that read before they connect: what it does, its HTTP API and tips, with the address the agent used already filled in. It is served at `/llms.txt`, at `/` to clients whose `Accept` header asks for `text/markdown` before `text/html` (browsers still get the web app), and every page of the web app links to it with `<link rel="alternate" type="text/markdown">`.
+
+### Runtime Flow
+
+The device is configured through its embedded web UI and local network flow.
+
+1. The ESP32-CAM starts in access point mode on first boot, as the `Gizmo-Birdhouse` network.
+2. The web app lets you pick the Wi-Fi network and enter its password from your phone.
+3. The firmware saves the network and reuses it after reboot, and sets its clock from the internet.
+4. At `gizmo-birdhouse.local`, the Visits page shows the visits as they come, and the Camera page sets how they are photographed.
+
+### Key Files
+
+- `microcontroller/src/detection/detection.cpp` for the detection task and the visit photos.
+- `microcontroller/src/detection/motion_detector.cpp` for the comparison of the frames.
+- `microcontroller/src/visits/visit_store.cpp` for the visits on the microSD card.
+- `microcontroller/src/config/birdhouse_settings.cpp` for the settings, their limits, the sensitivities and their validation.
+- `microcontroller/src/guide/agent_guide.cpp` for the Markdown guide for agents.
+- `webapp/app/composables/useDeviceApi.js` for browser-to-device communication.
 
 ### Releasing a new version
 

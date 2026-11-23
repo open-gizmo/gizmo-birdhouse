@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 #include "../../clock/clock.h"
 #include "../../detection/detection.h"
-#include "../../settings/settings_storage.h"
+#include "../../storage/storage.h"
 #include "../../visits/visit_store.h"
 
 namespace {

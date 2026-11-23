@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include "../settings/birdhouse_settings.h"
+#include "../config/birdhouse_settings.h"
 
 // Motion detection on small grayscale frames, kept free of hardware headers so the native tests can use it
 

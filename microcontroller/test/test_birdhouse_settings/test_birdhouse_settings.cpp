@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 
 #include "camera/capture_options.h"
-#include "settings/birdhouse_settings.h"
+#include "config/birdhouse_settings.h"
 
 namespace {
 	// Index of UXGA, the largest resolution of the OV2640 (the sensor of the ESP32-CAM)

@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 #include <gizmo/device.h>
 #include <gizmo/wifi_setup.h>
-#include "../../settings/settings_storage.h"
+#include "../../storage/storage.h"
 
 // Clear the saved settings and the Wi-Fi, then restart: the factory reset of the birdhouse, which has no BOOT button to hold (on the ESP32-CAM, GPIO0 is the camera clock). The visits on the card stay
 void setupResetSettingsPostRoute() {
