@@ -20,7 +20,7 @@ void setup() {
 	setupDetection(); // Watch for birds
 
 	// No factory reset with the BOOT button: on the ESP32-CAM, GPIO0 is the clock of the camera (the web app resets the settings, and a missing network opens the setup hotspot again)
-	manageWiFiConnection(); // Manage the WiFi connection
+	manageWiFiConnection(); // Manage the Wi-Fi connection
 }
 
 // Loop
@@ -28,7 +28,7 @@ void loop() {
 	// Restart the device if the web server asked for it
 	gizmo::manageDevice();
 
-	// Manage the WiFi connection
+	// Manage the Wi-Fi connection
 	manageWiFiConnection();
 
 	// Give the CPU back between checks (the ESP32-CAM runs warm)

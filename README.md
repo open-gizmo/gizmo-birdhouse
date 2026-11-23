@@ -80,7 +80,7 @@ Under the hood everything is plain HTTP: the visits are a JSON list at `/api/vis
 				<img src="docs/screenshot-camera-settings.png" alt="Visit detection settings on the Camera screen" width="180">
 			</td>
 			<td align="center" valign="top">
-				<img src="docs/screenshot-wifi.png" alt="WiFi setup screen" width="180">
+				<img src="docs/screenshot-wifi.png" alt="Wi-Fi setup screen" width="180">
 			</td>
 		</tr>
 	</table>
@@ -268,7 +268,7 @@ Logging, the web API helpers, the device API and the whole Wi-Fi setup (connecti
 - **Visits** (the home page): what the birdhouse is doing (watching, off, no card), the last visit and the space on the card, then the visits newest first. Open one to see its photo, save it as a JPEG or delete it; **Delete all visits** empties the card.
 - **Camera**: a snapshot right now, at the resolution and quality you choose, with the flash; below it, switch the visit photos on or off, and choose the sensitivity, the wait between photos, the resolution of the photos and the flash.
 - **Device**: the device card of gizmo-common (name, firmware, uptime, memory, network, restart, forget network), and **Reset saved settings**.
-- **WiFi**: the network setup of gizmo-common.
+- **Wi-Fi**: the network setup of gizmo-common.
 - During development (`npm run dev`), a mock device in `webapp/server/` answers like the firmware, with a few drawn birds as visits and a test card in place of the live photo.
 
 #### 🎨 UI System
