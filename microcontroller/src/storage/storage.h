@@ -1,7 +1,7 @@
-#ifndef SETTINGS_STORAGE_H
-#define SETTINGS_STORAGE_H
+#ifndef STORAGE_H
+#define STORAGE_H
 
-#include "birdhouse_settings.h"
+#include "../config/birdhouse_settings.h"
 
 // Load the saved settings (the defaults on a new birdhouse), clamped to what the sensor can take
 void setupSettings(size_t maxResolutionIndex);

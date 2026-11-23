@@ -1,7 +1,7 @@
 #include "../server.h"
 #include <ArduinoJson.h>
 #include "../../camera/camera.h"
-#include "../../settings/settings_storage.h"
+#include "../../storage/storage.h"
 #include "../../serial/serial.h"
 
 namespace {

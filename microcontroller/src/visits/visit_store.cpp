@@ -3,7 +3,7 @@
 #include <SD_MMC.h>
 #include <atomic>
 #include <freertos/semphr.h>
-#include "../settings/settings_storage.h"
+#include "../storage/storage.h"
 #include "../serial/serial.h"
 
 namespace {

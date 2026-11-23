@@ -18,6 +18,7 @@ void setupRoutes() {
 	setupVisitsRoutes();
 	setupSettingsRoutes();
 	setupResetSettingsPostRoute();
+	setupAgentGuideRoute();
 	setupCaptivePortalRoute();
 }
 

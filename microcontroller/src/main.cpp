@@ -1,6 +1,6 @@
 #include "serial/serial.h"
 #include "camera/camera.h"
-#include "settings/settings_storage.h"
+#include "storage/storage.h"
 #include "visits/visit_store.h"
 #include "wifi/wifi.h"
 #include "clock/clock.h"
