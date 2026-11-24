@@ -4,6 +4,8 @@ What changed in each release. New notes go under **Unreleased** while the work i
 
 ## Unreleased
 
+## v1.0.0 - 2026-11-24
+
 The first version of Gizmo Birdhouse: an AI Thinker ESP32-CAM in a birdhouse that photographs the birds that come to visit.
 
 - Visit detection with no extra wiring: the camera watches the birdhouse and takes a photo when the picture changes, with a low, medium or high sensitivity and a wait between photos (5 s to 1 h, 30 s by default) so a bird that stays, like one sitting on its nest, isn't photographed every second. Changes of light across the whole picture are left out.
