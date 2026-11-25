@@ -4,6 +4,8 @@ What changed in each release. New notes go under **Unreleased** while the work i
 
 ## Unreleased
 
+## v1.0.1 - 2026-11-25
+
 - gizmo-common v2.7.1: the web app writes "Wi-Fi" instead of "WiFi", on the tab and on the Wi-Fi setup page. Flash the new firmware to get it.
 
 ## v1.0.0 - 2026-11-24
