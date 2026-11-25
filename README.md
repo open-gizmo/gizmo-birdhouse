@@ -124,12 +124,31 @@ Gizmo Birdhouse is built around four cooperating parts:
 <a id="quick-start"></a>
 ## 🚀 Quick Start
 
-### 📋 What you need
+### 🚀 Easy, no-code option
 
-- An **AI Thinker ESP32-CAM** with its **ESP32-CAM-MB** USB board.
-- A **microSD card** formatted as FAT32 (up to 32 GB: bigger cards come as exFAT, which the ESP32 can't read).
+Use this path if you just want to flash the prebuilt firmware from the website. You do not need VS Code, PlatformIO, or a local build step.
 
-### 🛠️ Build and flash
+1. **Put a microSD card in the ESP32-CAM, plug the ESP32-CAM into its ESP32-CAM-MB USB board, and connect it to an available USB port on your PC.**
+
+	Format the card as FAT32, up to 32 GB: bigger cards come as exFAT, which the ESP32 can't read. The MB board is the small USB adapter the ESP32-CAM sits on: the ESP32-CAM has no USB port of its own.
+
+2. **Open the [Gizmo Birdhouse](https://opengizmo.dev/projects/gizmo-birdhouse) project page.**
+
+3. **Scroll down until you reach the firmware flashing card.**
+
+4. **Press the "Flash firmware" button in the card to start the upload.**
+
+	If the flasher can't connect, hold the **IO0** button of the MB board, press and release **RST**, then release **IO0** and try again: this puts the ESP32 in flashing mode by hand.
+
+5. **Wait until the flashing process completes, then press RST on the MB board.**
+
+6. **Join the `Gizmo-Birdhouse` Wi-Fi network with your phone, and pick your Wi-Fi in the page that opens.**
+
+7. **Enjoy your Gizmo Birdhouse at [gizmo-birdhouse.local](http://gizmo-birdhouse.local)!**
+
+### 🛠️ More technical option
+
+If you want to build and flash everything yourself, follow this path:
 
 1. **Install Visual Studio Code and PlatformIO.**
 
@@ -148,7 +167,7 @@ Gizmo Birdhouse is built around four cooperating parts:
 
 3. **Build and upload the firmware.**
 
-	Put the ESP32-CAM on its MB board, connect it over USB, and from `microcontroller/` run:
+	Put the microSD card in the ESP32-CAM and the ESP32-CAM on its MB board, connect it over USB, and from `microcontroller/` run:
 
 	```bash
 	pio run --target upload
@@ -305,7 +324,7 @@ Set from the **Camera** tab, or with `POST /api/settings` (every field optional)
 
 **Reset saved settings** (`POST /api/reset-settings`) clears them and the Wi-Fi, then restarts into the setup hotspot. The visits stay on the card.
 
-### API
+### Birdhouse API
 
 The birdhouse answers on `http://gizmo-birdhouse.local` (or its IP address) on your network:
 
