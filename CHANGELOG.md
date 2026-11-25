@@ -4,6 +4,8 @@ What changed in each release. New notes go under **Unreleased** while the work i
 
 ## Unreleased
 
+- gizmo-common v2.7.1: the web app writes "Wi-Fi" instead of "WiFi", on the tab and on the Wi-Fi setup page. Flash the new firmware to get it.
+
 ## v1.0.0 - 2026-11-24
 
 The first version of Gizmo Birdhouse: an AI Thinker ESP32-CAM in a birdhouse that photographs the birds that come to visit.

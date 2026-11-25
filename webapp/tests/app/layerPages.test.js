@@ -25,7 +25,7 @@ describe('pages of the layer', () => {
             ['visits', 'Visits', '/visits'],
             ['camera', 'Camera', '/camera'],
             ['device', 'Device', '/device'],
-            ['wifi', 'WiFi', '/wifi']
+            ['wifi', 'Wi-Fi', '/wifi']
         ]);
     });
 
